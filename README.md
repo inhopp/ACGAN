@@ -1,18 +1,18 @@
-# CGAN
+# ACGAN
 
-Conditional generative adversarial networks
+Conditional image synthesis with auxiliary classifier GANs (AC-GANs)
 
-> 어째 0이 조금 이상하다..
+> [Paper Review](https://inhopp.github.io/paper/Paper16/)
 
 | Epoch 0 | Epoch 50 | Epoch 100 | Epoch 150 | Epoch 200 |
 |:-:|:-:|:-:|:-:|:-:|
-| ![data0](https://user-images.githubusercontent.com/96368476/215316520-03512d96-1d3b-4eae-b16a-30c7e042c5fc.png) | ![data49](https://user-images.githubusercontent.com/96368476/216553710-0e8a780c-90b8-4186-bd5a-484578408505.png) | ![data99](https://user-images.githubusercontent.com/96368476/216553706-a268af94-9024-4384-b681-7983432341cf.png) | ![data149](https://user-images.githubusercontent.com/96368476/216553703-4cb7b39b-6b76-4471-9f09-59ebe5da6c09.png) | ![data199](https://user-images.githubusercontent.com/96368476/216553699-c5c7d3e9-8cc2-405c-86cc-a98495c8b7b9.png) |
+| ![data0](https://user-images.githubusercontent.com/96368476/215316520-03512d96-1d3b-4eae-b16a-30c7e042c5fc.png) | ![data49](https://user-images.githubusercontent.com/96368476/217025804-0e9fa183-8b8a-4c43-a02d-06bbf49fd0f8.png) | ![data99](https://user-images.githubusercontent.com/96368476/217025815-a405cfa8-c64e-4433-92e2-eff27f190cbf.png) | ![data149](https://user-images.githubusercontent.com/96368476/217025819-fdaab384-78fd-48de-9d88-e78bff90375f.png) | ![data199](https://user-images.githubusercontent.com/96368476/217025825-4d41735d-2082-486d-936b-610074ebe280.png) |
 
 
 ## Repository Directory 
 
 ``` python 
-├── CGAN
+├── ACGAN
      ├── datasets
      │     └── mnist
      ├── data.py
@@ -36,7 +36,7 @@ Conditional generative adversarial networks
 
 ``` python
 # Clone this repo and install dependency
-git clone https://github.com/inhopp/CGAN.git
+git clone https://github.com/inhopp/ACGAN.git
 ```
 
 <br>
