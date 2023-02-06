@@ -6,7 +6,7 @@ class Generator(nn.Module):
         super(Generator, self).__init__()        
         self.label_emb = nn.Embedding(n_classes, n_classes)
         self.init_size = img_size // 4
-        self.l1 = nn.Sequential(nn.Linear(100, 128 * self.init_size ** 2 ))
+        self.l1 = nn.Sequential(nn.Linear(100 + n_classes, 128 * self.init_size ** 2 ))
 
         self.conv_blocks = nn.Sequential(
             nn.BatchNorm2d(128),
