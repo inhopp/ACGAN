@@ -28,7 +28,8 @@ class Solver():
         print("# Generator params:", sum(map(lambda x: x.numel(), self.generator.parameters())))
         print("# Discriminator params:", sum(map(lambda x: x.numel(), self.discriminator.parameters())))
 
-        self.loss_fn = nn.MSELoss()
+        self.adv_loss = torch.nn.BCELoss()
+        self.aux_loss = torch.nn.CrossEntropyLoss()
 
         self.optimizer_G = optim.Adam(self.generator.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
         self.optimizer_D = optim.Adam(self.discriminator.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
@@ -49,7 +50,7 @@ class Solver():
                 fake = Variable(torch.zeros(imgs.size(0), 1)).to(self.dev)
 
                 real_imgs = Variable(imgs).to(self.dev)
-                labels = Variable(labels).to(self.dev)
+                real_labels = Variable(labels).to(self.dev)
 
                 # train Generator
                 self.optimizer_G.zero_grad()
@@ -57,14 +58,20 @@ class Solver():
                 gen_labels = torch.tensor(np.random.randint(0, self.n_classes, imgs.size(0)))
                 gen_labels = Variable(gen_labels).to(self.dev)
                 generated_imgs = self.generator(z, gen_labels)
-                g_loss = self.loss_fn(self.discriminator(generated_imgs, gen_labels), real)
+                validity, pred_label = self.discriminator(generated_imgs)
+                g_loss = 0.5 * (self.adv_loss(validity, real) + self.aux_loss(pred_label, gen_labels))
                 g_loss.backward()
                 self.optimizer_G.step()
 
                 # train Discriminator
                 self.optimizer_D.zero_grad()
-                real_loss = self.loss_fn(self.discriminator(real_imgs, labels), real)
-                fake_loss = self.loss_fn(self.discriminator(generated_imgs.detach(), gen_labels), fake)
+
+                real_pred, real_aux = self.discriminator(real_imgs)
+                real_loss = (self.adv_loss(real_pred, real) + self.aux_loss(real_aux, real_labels)) / 2
+                
+                fake_pred, fake_aux = self.discriminator(generated_imgs.detach())
+                fake_loss = (self.adv_loss(fake_pred, fake) + self.aux_loss(fake_aux, gen_labels)) / 2
+
                 d_loss = (real_loss + fake_loss) / 2
                 d_loss.backward()
                 self.optimizer_D.step()
